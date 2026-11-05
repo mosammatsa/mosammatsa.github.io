@@ -1,5 +1,4 @@
-<head> 
-	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0" />
+<head>
 <style>
 	body {
 		text-align: center;	
@@ -10,8 +9,6 @@
 	.embed-box {
 	  margin: 75px 0px 75px 0px;
 	}
-	
-	
 </style>
 </head>
 
@@ -29,9 +26,10 @@
 		  allow="clipboard-write; fullscreen"
 		  referrerpolicy="strict-origin-when-cross-origin"
 		  frameborder="0"
-		 style="width:80%; max-width:1280px; height:auto; aspect-ratio:1280/720; border:0; display:block; margin:0 auto;"
-	 ></iframe>
-		
+		  style="width:80%; max-width:1280px; height:auto; aspect-ratio:1280/720; border:0; display:block; margin:0 auto;"
+		></iframe>
+		<button class="likeButtons">Like</button>
+		<span class="numLikes">0</span>
 	</div>
 	
 	
@@ -46,9 +44,49 @@
 	  allow="clipboard-write; fullscreen"
 	  referrerpolicy="strict-origin-when-cross-origin"
 	  frameborder="0"
-	   style="width:80%; max-width:1280px; height:auto; aspect-ratio:1280/720; border:0; display:block; margin:0 auto;"
+	  style="width:80%; max-width:1280px; height:auto; aspect-ratio:1280/720; border:0; display:block; margin:0 auto;"
 	></iframe>
+	<button class="likeButtons">Like</button>
+	<span class="numLikes">0</span>
 	</div>
 	
+	<script type="module">
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+		import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+	    // Import the functions you need from the SDKs you need
+
+	    // TODO: Add SDKs for Firebase products that you want to use
+	    // https://firebase.google.com/docs/web/setup#available-libraries
+
+	    // Your web app's Firebase configuration
+	    const firebaseConfig = {
+	      apiKey: "AIzaSyAP0waRZPQs3gMOTQXk_QYgK4lHmuHBqQo",
+	      authDomain: "mosammatlikebuttons1-1fd30.firebaseapp.com",
+	      projectId: "mosammatlikebuttons1-1fd30",
+	      storageBucket: "mosammatlikebuttons1-1fd30.firebasestorage.app",
+	      messagingSenderId: "265506830231",
+	      appId: "1:265506830231:web:1017b18b951e9eca8e36d2"
+	    };
+
+	    // Initialize Firebase
+	    const app = initializeApp(firebaseConfig);
+		const db = getDatabase(app);
+		
+		const likeButtons = document.querySelectorAll(".likeButtons")
+		const numLikes = document.querySelectorAll(".numLikes")
+
+		for (let i=0; i<likeButtons.length; i++) {
+			likeButtons[i].addEventListener('click', function(){ Like(i) })
+		}
+
+		function Like(i) {
+			let numberLikes = parseInt(numLikes[i].innerHTML)
+			numberLikes = numberLikes + 1
+			set(ref(db, "project " + i), {
+				numLikes: numberLikes,
+			});
+			
+		}
+	</script>
 </body>	
 
